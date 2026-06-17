@@ -9,22 +9,48 @@ Follow these simple steps to install the app and set up your Linux desktop envir
 Open Termux, copy the entire block of commands below, paste it into Termux, and press **Enter**:
 
 ```bash
-# Allow Termux to read your files
-termux-setup-storage
+pkg update
 
-# Go to your extracted GitHub project folder (Change 'your-folder-name' to match your zip file)
-cd /sdcard/Download/your-folder-name
+```
+```bash
+pkg upgrade-y
+```
+```bash
+pkg install proot-distro -y
+```
+```bash
+proot-distro install ubuntu
+```
+```bash
+proot-distro login ubuntu
+```
+```bash
+apt update && apt upgrade -y
+apt install xfce4 xfce4-goodies tigervnc-standalone-server nano -y
+```
+type the passward and type again and you can,t see the passward
+```bash
+vncpasswd
+```
+```bash
+mkdir -p ~/.vnc
+```
+```bash
+nano ~/.vnc/xstartup
+```
+copy the code  annd past and then prss ctrl+o and ctrl+x
+```bash
+#!/bin/sh
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+startxfce4 &
+```
+```bash
+chmod +x ~/.vnc/xstartup
+```
+```bash
+vncserver -geometry 1280x720 :1
+```
 
-# Update Termux packages and install PRoot
-pkg update -y && pkg install proot -y
 
-# Create a folder for Ubuntu and extract the system file
-mkdir -p ~/ubuntu26
-tar -xvf ubuntu-rootfs.tar.gz -C ~/ubuntu26
 
-# Log into Ubuntu and automatically install the lightest XFCE desktop
-proot -r ~/ubuntu26 -0 -w /root /bin/bash -c "
-  apt update && apt upgrade -y
-  apt install --no-install-recommends xfce4 xorg tightvncserver -y
-  echo 'Installation complete! You can now start the desktop.'
-"
